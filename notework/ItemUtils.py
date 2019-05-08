@@ -7,9 +7,10 @@
 # @Software: PyCharm
 
 
-import json
 import logging
-from urllib import request
+
+import demjson
+import urllib3
 
 logger = logging.getLogger('ItemUtils')
 
@@ -21,11 +22,12 @@ def fill_item_info(item_list=None):
         raise Exception('入参 item_list 是list')
     items = ','.join(item_list)
     url = 'http://pluto.vdian.net/solution/query?solutionId=1004&itemIdList=' + items
+
+    r = urllib3.PoolManager().request('GET', url)
+
     logger.debug('url:' + url)
 
-    f = request.urlopen(url)
-
-    response = json.loads(f.read())
+    response = demjson.decode(r.data)
 
     logger.debug('response:' + str(response))
     result = response['result']['result']
@@ -36,5 +38,13 @@ def fill_item_info(item_list=None):
 
 
 def test():
-    res = fill_item_info(['2540122701'])
+    items = ['2738806530', '2760741906', '2631178932', '2760230700', '2748823895', '2761505903', '2628266453',
+             '2752052591', '2765499871', '2742365760', '2744653329', '1989132998', '2686634456', '2761004936',
+             '2681965956', '2739988567', '2624065058', '2587058292', '2101007226', '2667069886', '2222309442',
+             '2623494760', '2740694950', '2708570975', '2539204758', '2758790542', '2237694006', '2746753146',
+             '2766035761', '2753452981', '2747920412', '2117541291', '2677931630', '2598108903', '2605797338',
+             '2720272394', '2600869963', '2677017720', '2613621399', '2762853944', '2744145960', '2598164434',
+             '2562663177', '2698842428', '2745672602', '2650834293', '2720262800', '2628145052', '2713967535',
+             '2728856804']
+    res = fill_item_info(items)
     print(res)
