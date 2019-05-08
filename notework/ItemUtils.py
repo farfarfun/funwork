@@ -37,6 +37,35 @@ def fill_item_info(item_list=None):
     return result
 
 
+def fill_item_info_dict(item_list=None):
+    if item_list is None or not isinstance(item_list, list):
+        raise Exception('入参 item_list 是list')
+
+    item_ids = []
+    item_map = {}
+    for item in item_list:
+        item_ids.append(item['itemId'])
+        item_map[item['itemId']] = item
+
+    items = ','.join(item_ids)
+    url = 'http://pluto.vdian.net/solution/query?solutionId=1004&itemIdList=' + items
+
+    r = urllib3.PoolManager().request('GET', url)
+
+    logger.debug('url:' + url)
+
+    response = demjson.decode(r.data)
+
+    logger.debug('response:' + str(response))
+    result = response['result']['result']
+    for res in result:
+        res['priceInfo'] = res['price']
+        res['price'] = res['priceInfo']['price']
+
+        res.update(item_map[str(res['itemId'])])
+    return result
+
+
 def test():
     items = ['2738806530', '2760741906', '2631178932', '2760230700', '2748823895', '2761505903', '2628266453',
              '2752052591', '2765499871', '2742365760', '2744653329', '1989132998', '2686634456', '2761004936',
@@ -47,4 +76,10 @@ def test():
              '2562663177', '2698842428', '2745672602', '2650834293', '2720262800', '2628145052', '2713967535',
              '2728856804']
     res = fill_item_info(items)
+    print(res)
+
+
+def test2():
+    items = [{'itemId': '2738806530'}]
+    res = fill_item_info_dict(items)
     print(res)
