@@ -13,10 +13,12 @@ from urllib import request
 
 logger = logging.getLogger('ItemUtils')
 
+__all__=['fill_item_info']
 
-def fillItemInfo(item_list=None):
-    if item_list is None:
-        item_list = ['1001481623', '2711613576']
+
+def fill_item_info(item_list=None):
+    if item_list is None or not isinstance(item_list,list):
+        raise Exception('入参 item_list 是list')
     items = ','.join(item_list)
     url = 'http://pluto.vdian.net/solution/query?solutionId=1004&itemIdList=' + items
     logger.debug('url:' + url)
@@ -26,13 +28,7 @@ def fillItemInfo(item_list=None):
     response = json.loads(f.read())
 
     logger.debug('response:' + str(response))
-    # result = []
     result = response['result']['result']
-    
+
     return result
 
-
-logger.setLevel(logging.DEBUG)
-
-result = fillItemInfo()
-print(result)
