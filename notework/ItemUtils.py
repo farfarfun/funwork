@@ -58,11 +58,14 @@ def fill_item_info_dict(item_list=None):
 
     logger.debug('response:' + str(response))
     result = response['result']['result']
+    result_list = []
     for res in result:
         res['priceInfo'] = res['price']
         res['price'] = res['priceInfo']['price']
 
-        res.update(item_map[str(res['itemId'])])
+        res_item = item_map[str(res['itemId'])]
+        res_item.update(res)
+        result_list.append(res_item)
     return result
 
 
