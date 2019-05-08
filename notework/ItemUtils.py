@@ -66,7 +66,7 @@ def fill_item_info_dict(item_list=None):
         res_item = item_map[str(res['itemId'])]
         res_item.update(res)
         result_list.append(res_item)
-    return result
+    return result_list
 
 
 def test():
