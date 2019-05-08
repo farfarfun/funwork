@@ -18,9 +18,11 @@ python setup.py bdist_wheel
 twine upload dist/*
 
 
-rm -rf bulid
-rm -rf dist
 rm -rf notework.egg-info
+rm -rf dist
+rm -rf bulid
+
+
 
 git pull
 git add -A
