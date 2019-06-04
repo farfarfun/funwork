@@ -44,6 +44,8 @@ def fill_item_info_dict(item_list=None):
     item_ids = []
     item_map = {}
     for item in item_list:
+        if item['itemId'] is None:
+            continue
         item_ids.append(item['itemId'])
         item_map[item['itemId']] = item
 
