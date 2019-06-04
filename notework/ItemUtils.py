@@ -41,13 +41,13 @@ def fill_item_info_dict(item_list=None):
     if item_list is None or not isinstance(item_list, list):
         raise Exception('入参 item_list 是list')
 
-    item_ids = []
-    item_map = {}
+    item_ids = set()
+
     for item in item_list:
         if 'itemId' not in item.keys() or item['itemId'] is None:
             continue
-        item_ids.append(item['itemId'])
-        item_map[item['itemId']] = item
+        item_ids.add(item['itemId'])
+
 
     items = ','.join(item_ids)
     url = 'http://pluto.vdian.net/solution/query?solutionId=1004&itemIdList=' + items
@@ -60,15 +60,17 @@ def fill_item_info_dict(item_list=None):
 
     logger.debug('response:' + str(response))
     result = response['result']['result']
-    result_list = []
+
+    res_map = {}
     for res in result:
         res['priceInfo'] = res['price']
         res['price'] = res['priceInfo']['price']
+        res_map[str(res['itemId'])]=res
 
-        res_item = item_map[str(res['itemId'])]
-        res_item.update(res)
-        result_list.append(res_item)
-    return result_list
+    for item in item_list:
+        item.update(res_map.get(item['itemId'],{}))
+
+    return item_list
 
 
 def test():
@@ -88,3 +90,5 @@ def test2():
     items = [{'itemId': '2738806530'}]
     res = fill_item_info_dict(items)
     print(res)
+
+#test()
