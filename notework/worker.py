@@ -19,6 +19,7 @@ __all__ = ['encrypt', 'decrypt']
 
 
 def encrypt(text, cipher_key=default_key):
+    text = text.encode()
     cipher = Fernet(cipher_key)
     encrypted_text = cipher.encrypt(text)
 
@@ -29,11 +30,11 @@ def decrypt(encrypted_text, cipher_key=default_key):
     cipher = Fernet(cipher_key)
     decrypted_text = cipher.decrypt(encrypted_text)
 
-    return decrypted_text
+    return decrypted_text.decode()
 
 
 def test():
-    text = b'My super secret message'
+    text = 'My super secret message'
     print(encrypt(text))
     print(encrypt(text))
     print(encrypt(text))
