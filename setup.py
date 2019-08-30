@@ -11,7 +11,7 @@ from setuptools import setup, find_packages
 install_requires = []
 
 setup(name='notework',
-      version='0.0.15',
+      version='0.0.16',
       description='notework',
       author='euler',
       author_email='1007530194@qq.com',
