@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-rm -rf bulid
+rm -rf build
 rm -rf dist
 rm -rf notework.egg-info
 
@@ -20,7 +20,7 @@ twine upload dist/*
 
 rm -rf notework.egg-info
 rm -rf dist
-rm -rf bulid
+rm -rf build
 
 
 
