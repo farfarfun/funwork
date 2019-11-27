@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-rm -rf build
-rm -rf dist
-rm -rf notework.egg-info
-
 # 编译
 python setup.py build
 # 生成 tar.gz

@@ -9,16 +9,11 @@
 
 import datetime
 import json
-import os
-import sys
 
 import numpy as np
 import pandas as pd
 import requests
-
-from ..worker import decrypt
-
-sys.path.append(os.path.dirname(__file__) + os.sep + '../')
+from notework.worker import decrypt
 
 
 def get_data_from_console(url):
