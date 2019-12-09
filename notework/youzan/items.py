@@ -13,7 +13,8 @@ import json
 import numpy as np
 import pandas as pd
 import requests
-from notework.worker import decrypt
+
+from notetool.tool import decrypt
 
 
 def get_data_from_console(url):
@@ -42,7 +43,7 @@ def get_item_detail(item_id, shop_id):
     return res
 
 
-def get_data_from_dp(key='20190829100126b2d85941'):
+def get_data_from_dp(key='201912091501484e6f5230'):
     url = decrypt(
         b'gAAAAABdaOWVF6vzp-YMhr7qq7kceoei9h9qZPY-fEq2xsoRhuEPinuuIe4HXxXyPGWbPebcDQ9TxD0wyl_4VERjiA0-3ICDgsm0ioBw1Mym53l194xVd6csXMnGb97pcXr-_fafL_BW') + key
     headers = {
@@ -84,17 +85,3 @@ def get_day(day=1, fm='%Y%m%d'):
     today = datetime.date.today()
     yesterday = today - datetime.timedelta(days=day)
     return yesterday.strftime(fm)
-
-
-def test1():
-    res = get_item_detail(item_id="466973942", shop_id="1206788")
-
-    print(res)
-
-
-def test2():
-    day1 = get_day()
-    print(day1)
-
-    df = get_data_from_dp()
-    print(df.dtypes)
