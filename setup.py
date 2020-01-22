@@ -8,7 +8,7 @@
 
 from setuptools import setup, find_packages
 
-install_requires = []
+install_requires = ['notetool']
 
 setup(name='notework',
       version='0.0.26',
