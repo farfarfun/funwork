@@ -27,7 +27,7 @@ def fill_item_info(item_list=None):
 
     logger.debug('url:' + url)
 
-    response = demjson.decode(r.data)
+    response = demjson.decode(r.data_mock)
 
     logger.debug('response:' + str(response))
     result = response['result']['result']
@@ -48,7 +48,6 @@ def fill_item_info_dict(item_list=None):
             continue
         item_ids.add(item['itemId'])
 
-
     items = ','.join(item_ids)
     url = 'http://pluto.vdian.net/solution/query?solutionId=1004&itemIdList=' + items
 
@@ -56,7 +55,7 @@ def fill_item_info_dict(item_list=None):
 
     logger.debug('url:' + url)
 
-    response = demjson.decode(r.data)
+    response = demjson.decode(r.data_mock)
 
     logger.debug('response:' + str(response))
     result = response['result']['result']
@@ -65,10 +64,10 @@ def fill_item_info_dict(item_list=None):
     for res in result:
         res['priceInfo'] = res['price']
         res['price'] = res['priceInfo']['price']
-        res_map[str(res['itemId'])]=res
+        res_map[str(res['itemId'])] = res
 
     for item in item_list:
-        item.update(res_map.get(item['itemId'],{}))
+        item.update(res_map.get(item['itemId'], {}))
 
     return item_list
 
@@ -91,4 +90,4 @@ def test2():
     res = fill_item_info_dict(items)
     print(res)
 
-#test()
+# test()
