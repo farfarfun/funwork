@@ -14,7 +14,7 @@ python setup.py bdist_wheel
 twine upload dist/*
 
 
-rm -rf notework.egg-info
+rm -rf funwork.egg-info
 rm -rf dist
 rm -rf build
 
