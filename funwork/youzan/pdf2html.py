@@ -1,4 +1,4 @@
-from notetool.html.pyhtml import html, body, img, table, li, a, td, tr
+from funtool.html.pyhtml import html, body, img, table, li, a, td, tr
 
 
 class pd2html:

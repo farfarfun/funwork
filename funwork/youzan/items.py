@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 import requests
 
-from notetool.tool import decrypt
+from funsecret import decrypt
 
 
 def get_data_from_console(url):
