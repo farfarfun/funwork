@@ -1,15 +1,16 @@
-# Changelog
+# 更新日志
 
 ## [Unreleased] - 2026-08-28
 
-### Changed
+### 变更
 
-- **Breaking:** renamed the package from `notework` to `funwork` to match the
+- **破坏性变更：** 将包从 `notework` 重命名为 `funwork`。迁移方法：
   GitHub repository name. The import name and the PyPI distribution name both change:
   - `import notework` -> `import funwork`
   - `pip install notework` -> `pip install funwork`
-- The old `notework` PyPI package will receive one final release that forwards to
-  `funwork` (manual follow-up by the repo owner, not part of this change). Note that
-  `notework` was never actually published to PyPI, so this forwarding release does not
-  apply in practice; see README for the unrelated pre-existing `funwork` 0.0.1 placeholder
-  package on PyPI.
+- 将导入从 `notework` 改为 `funwork`，并将安装命令从 `pip install notework` 改为
+  `pip install funwork`。`notework` 未发布，无需兼容转发包。
+
+### 修复
+
+- 移除源码中的硬编码凭据，并补齐运行时依赖声明。
