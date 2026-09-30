@@ -582,8 +582,8 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "demjson3", specifier = ">=3.0.6" },
-    { name = "farlog", specifier = ">=1.0.11" },
-    { name = "funsecret", specifier = ">=1.4.83" },
+    { name = "farlog", specifier = ">=1.1.7" },
+    { name = "funsecret", specifier = ">=1.4.84" },
     { name = "numpy", specifier = ">=1.24.0" },
     { name = "pandas", specifier = ">=1.5.0" },
     { name = "requests", specifier = ">=2.31.0" },
@@ -591,7 +591,7 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-dev = [{ name = "pytest" }]
+dev = [{ name = "pytest", specifier = ">=9.0.0" }]
 
 [[package]]
 name = "greenlet"

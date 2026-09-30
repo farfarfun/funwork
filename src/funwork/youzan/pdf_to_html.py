@@ -2,11 +2,13 @@
 
 from html import escape
 
+import pandas as pd
+
 
 class DataFrameToHtml:
     """把 pandas DataFrame 渲染为商品 HTML 表格。"""
 
-    def __init__(self, data) -> None:
+    def __init__(self, data: pd.DataFrame) -> None:
         self.columns = list(data.columns)
         self.data_dict = data.to_dict(orient="records")
         self.pass_words = {"url"}
@@ -27,7 +29,8 @@ class DataFrameToHtml:
                 if column == "id" and row.get("url"):
                     value = f'<a href="{escape(str(row["url"]), quote=True)}" target="_blank">{value}</a>'
                 elif "img" in column or "image" in column:
-                    value = f'<img src="{escape(str(row.get(column, "")), quote=True)}?w=250&h=250&cp=1">'
+                    image_url = f"{row.get(column, '')}?w=250&h=250&cp=1"
+                    value = f'<img src="{escape(image_url, quote=True)}">'
                 cells.append(f"<td>{value}</td>")
             rows.append("<tr>" + "".join(cells) + "</tr>")
         return "<html><body><table>" + head + "".join(rows) + "</table></body></html>"

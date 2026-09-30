@@ -25,8 +25,15 @@ assert "example.com" in html
 设置 `FUNWORK_ITEM_DETAIL_URL`（支持 `{}` 两个格式化参数）、`FUNWORK_DP_URL`、
 `FUNWORK_DP_AUTHORIZATION` 和 `FUNWORK_DP_COOKIE`，或将相同配置写入 `funsecret`。
 
+---
+
 ## 关于 farfarfun
 
-本项目由 [farfarfun](https://github.com/farfarfun) 组织维护。
+[farfarfun](https://github.com/farfarfun) 是一个专注于实用工具库的开源组织，
+涵盖云存储、数据处理、AI、多媒体与开发工具链等方向。
+
+- 🏠 组织主页：<https://github.com/farfarfun>
+- 📦 PyPI：<https://pypi.org/user/niuliangtao/>
+- 📧 联系：farfarfun@qq.com
 
 本项目基于 [MIT](LICENSE) 协议开源。

@@ -3,7 +3,7 @@
 import datetime
 import json
 import os
-from typing import Any
+from typing import TypeAlias
 
 import numpy as np
 import pandas as pd
@@ -11,6 +11,10 @@ import requests
 from farlog import getLogger
 
 logger = getLogger("funwork.youzan.items")
+
+JsonValue: TypeAlias = (
+    None | bool | int | float | str | list["JsonValue"] | dict[str, "JsonValue"]
+)
 
 
 class ConfigurationError(RuntimeError):
@@ -32,7 +36,7 @@ def _secret(env_name: str, *category: str) -> str:
     raise ConfigurationError(f"未配置 {env_name}，请设置环境变量或写入 funsecret")
 
 
-def get_data_from_console(url: str) -> Any:
+def get_data_from_console(url: str) -> JsonValue:
     """请求 JSON 接口并返回数据。"""
     try:
         response = requests.get(url, timeout=30)
@@ -42,12 +46,15 @@ def get_data_from_console(url: str) -> Any:
         raise RuntimeError(f"请求数据失败: {url}") from exc
 
 
-def get_item_detail(item_id: str, shop_id: str) -> Any:
+def get_item_detail(item_id: str, shop_id: str) -> JsonValue:
     """查询商品详情。"""
     template = _secret(
         "FUNWORK_ITEM_DETAIL_URL", "funwork", "youzan", "item_detail_url"
     )
-    return get_data_from_console(template.format(item_id, shop_id)).get("data")
+    result = get_data_from_console(template.format(item_id, shop_id))
+    if not isinstance(result, dict):
+        raise TypeError("商品详情接口响应必须是对象")
+    return result.get("data")
 
 
 def get_data_from_dp(key: str = "201912091501484e6f5230") -> pd.DataFrame | str:

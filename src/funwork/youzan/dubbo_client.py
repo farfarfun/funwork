@@ -1,5 +1,11 @@
+from typing import TypeAlias
+
 import demjson3 as demjson
 import requests
+
+JsonValue: TypeAlias = (
+    None | bool | int | float | str | list["JsonValue"] | dict[str, "JsonValue"]
+)
 
 
 class Dubbo:
@@ -10,7 +16,7 @@ class Dubbo:
         self.interface = interface
         self.method = method
 
-    def get_dubbo_result(self, data: dict) -> dict:
+    def get_dubbo_result(self, data: dict[str, JsonValue]) -> JsonValue:
         """发送请求并返回解码后的响应。"""
         headers = {"Content-Type": "application/json", "X-Request-Protocol": "dubbo"}
         data = demjson.encode(data)

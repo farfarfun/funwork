@@ -1,3 +1,5 @@
+from typing import Any
+
 import demjson3 as demjson
 import urllib3
 from farlog import getLogger
@@ -7,7 +9,7 @@ logger = getLogger("funwork.item_utils")
 __all__ = ["fill_item_info"]
 
 
-def fill_item_info(item_list: list[str] | None = None) -> list[dict]:
+def fill_item_info(item_list: list[str] | None = None) -> list[dict[str, Any]]:
     """根据商品 ID 查询商品信息。"""
     if item_list is None or not isinstance(item_list, list):
         raise TypeError("item_list 必须是列表")
@@ -28,7 +30,9 @@ def fill_item_info(item_list: list[str] | None = None) -> list[dict]:
     return result
 
 
-def fill_item_info_dict(item_list: list[dict] | None = None) -> list[dict]:
+def fill_item_info_dict(
+    item_list: list[dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
     """把查询到的商品信息合并到商品字典列表。"""
     if item_list is None or not isinstance(item_list, list):
         raise TypeError("item_list 必须是列表")
