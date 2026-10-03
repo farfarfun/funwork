@@ -6,7 +6,10 @@ from farlog import getLogger
 
 logger = getLogger("funwork.item_utils")
 
-__all__ = ["fill_item_info"]
+__all__ = ["fill_item_info", "fill_item_info_dict"]
+
+
+_REQUEST_TIMEOUT = 30.0
 
 
 def fill_item_info(item_list: list[str] | None = None) -> list[dict[str, Any]]:
@@ -16,7 +19,7 @@ def fill_item_info(item_list: list[str] | None = None) -> list[dict[str, Any]]:
     items = ",".join(item_list)
     url = "http://pluto.vdian.net/solution/query?solutionId=1004&itemIdList=" + items
 
-    r = urllib3.PoolManager().request("GET", url)
+    r = urllib3.PoolManager().request("GET", url, timeout=_REQUEST_TIMEOUT)
 
     logger.debug("url:" + url)
 
@@ -47,7 +50,7 @@ def fill_item_info_dict(
     items = ",".join(item_ids)
     url = "http://pluto.vdian.net/solution/query?solutionId=1004&itemIdList=" + items
 
-    r = urllib3.PoolManager().request("GET", url)
+    r = urllib3.PoolManager().request("GET", url, timeout=_REQUEST_TIMEOUT)
 
     logger.debug("url:" + url)
 
@@ -63,72 +66,6 @@ def fill_item_info_dict(
         res_map[str(res["itemId"])] = res
 
     for item in item_list:
-        item.update(res_map.get(item["itemId"], {}))
+        item.update(res_map.get(item.get("itemId"), {}))
 
     return item_list
-
-
-def _legacy_test_removed():
-    items = [
-        "2738806530",
-        "2760741906",
-        "2631178932",
-        "2760230700",
-        "2748823895",
-        "2761505903",
-        "2628266453",
-        "2752052591",
-        "2765499871",
-        "2742365760",
-        "2744653329",
-        "1989132998",
-        "2686634456",
-        "2761004936",
-        "2681965956",
-        "2739988567",
-        "2624065058",
-        "2587058292",
-        "2101007226",
-        "2667069886",
-        "2222309442",
-        "2623494760",
-        "2740694950",
-        "2708570975",
-        "2539204758",
-        "2758790542",
-        "2237694006",
-        "2746753146",
-        "2766035761",
-        "2753452981",
-        "2747920412",
-        "2117541291",
-        "2677931630",
-        "2598108903",
-        "2605797338",
-        "2720272394",
-        "2600869963",
-        "2677017720",
-        "2613621399",
-        "2762853944",
-        "2744145960",
-        "2598164434",
-        "2562663177",
-        "2698842428",
-        "2745672602",
-        "2650834293",
-        "2720262800",
-        "2628145052",
-        "2713967535",
-        "2728856804",
-    ]
-    res = fill_item_info(items)
-    return res
-
-
-def _legacy_test2_removed():
-    items = [{"itemId": "2738806530"}]
-    res = fill_item_info_dict(items)
-    return res
-
-
-__all__ = ["fill_item_info", "fill_item_info_dict"]

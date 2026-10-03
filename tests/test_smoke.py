@@ -35,7 +35,7 @@ def test_fill_item_info(monkeypatch):
     monkeypatch.setattr(
         item_utils.urllib3.PoolManager,
         "request",
-        lambda self, method, url: type(
+        lambda self, method, url, timeout=None: type(
             "R", (), {"data": item_utils.demjson.encode(response)}
         )(),
     )
@@ -53,11 +53,13 @@ def test_fill_item_info_dict_merges_results(monkeypatch):
     monkeypatch.setattr(
         item_utils.urllib3.PoolManager,
         "request",
-        lambda self, method, url: type(
+        lambda self, method, url, timeout=None: type(
             "R", (), {"data": item_utils.demjson.encode(response)}
         )(),
     )
-    assert item_utils.fill_item_info_dict([{"itemId": "1"}])[0]["price"] == 12
+    merged = item_utils.fill_item_info_dict([{"itemId": "1"}, {"no_id": True}])
+    assert merged[0]["price"] == 12
+    assert merged[1] == {"no_id": True}
 
 
 def test_dataframe_to_html_escapes_content_and_links():
@@ -79,14 +81,37 @@ def test_dataframe_to_html_handles_empty_frame():
 def test_dubbo_posts_encoded_data(monkeypatch):
     seen = {}
 
-    def post(url, headers, data):
-        seen.update(url=url, headers=headers, data=data)
+    def post(url, headers, data, timeout=None):
+        seen.update(url=url, headers=headers, data=data, timeout=timeout)
         return Response(text='{"ok": true}')
 
     monkeypatch.setattr("funwork.youzan.dubbo_client.requests.post", post)
     result = Dubbo("https://host", "service", "method").get_dubbo_result({"id": 1})
     assert result == {"ok": True}
     assert seen["url"] == "https://host/soa/service/method"
+    assert seen["timeout"] is not None
+
+
+def test_dubbo_raises_runtime_error_on_request_failure(monkeypatch):
+    def post(url, headers, data, timeout=None):
+        raise requests.RequestException("offline")
+
+    monkeypatch.setattr("funwork.youzan.dubbo_client.requests.post", post)
+    with pytest.raises(RuntimeError, match="Dubbo 请求失败"):
+        Dubbo("https://host", "service", "method").get_dubbo_result({"id": 1})
+
+
+def test_dubbo_raises_runtime_error_on_bad_status(monkeypatch):
+    class BadResponse(Response):
+        def raise_for_status(self):
+            raise requests.HTTPError("500")
+
+    monkeypatch.setattr(
+        "funwork.youzan.dubbo_client.requests.post",
+        lambda url, headers, data, timeout=None: BadResponse(),
+    )
+    with pytest.raises(RuntimeError, match="Dubbo 请求失败"):
+        Dubbo("https://host", "service", "method").get_dubbo_result({"id": 1})
 
 
 def test_get_data_from_console_and_request_error(monkeypatch):
