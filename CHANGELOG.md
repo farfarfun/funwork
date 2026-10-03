@@ -4,12 +4,16 @@
 
 ### 变更
 
-- **破坏性变更：** 将包从 `notework` 重命名为 `funwork`。迁移方法：
-  GitHub repository name. The import name and the PyPI distribution name both change:
-  - `import notework` -> `import funwork`
-  - `pip install notework` -> `pip install funwork`
-- 将导入从 `notework` 改为 `funwork`，并将安装命令从 `pip install notework` 改为
-  `pip install funwork`。`notework` 未发布，无需兼容转发包。
+- **破坏性变更：** 将包从 `notework` 重命名为 `funwork`：`import notework` 改为
+  `import funwork`，`pip install notework` 改为 `pip install funwork`。`notework`
+  未发布，无需兼容转发包。
+- 将源码迁移到 `src/funwork/` 标准布局；依赖下限提升为 `farlog>=1.1.7`、
+  `funsecret>=1.4.84`；`dev` 依赖组补上 `pytest>=9.0.0` 下限。
+- 统一 `pyproject.toml`、GitHub 仓库 description 与 README 对项目功能的描述
+  （微店商品查询、Dubbo HTTP 网关调用、DataFrame 转 HTML 报表），不再暗示支持
+  PDF 输入。
+- 为公开 API（`item_utils.fill_item_info`/`fill_item_info_dict`、
+  `youzan.items` 全部公开函数）补充带参数/返回值/异常说明的 docstring。
 
 ### 修复
 

@@ -1,6 +1,9 @@
 # funwork
 
-有赞商品接口和 HTML 报表工具。网络接口凭据不会写入源码，运行前请通过环境变量或 `funsecret` 配置。
+工作用零散脚本集合：批量查询微店商品信息（`item_utils`）、通过 HTTP 网关泛化调用有赞
+Dubbo 服务（`youzan.dubbo_client`）、查询有赞商品/数据平台接口（`youzan.items`）、将
+`pandas.DataFrame` 渲染成 HTML 报表（`youzan.pdf_to_html`，不处理 PDF 文件）。网络接口
+凭据不会写入源码，运行前请通过环境变量或 `funsecret` 配置。
 
 ## 安装
 
