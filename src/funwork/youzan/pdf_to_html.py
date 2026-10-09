@@ -9,6 +9,11 @@ class DataFrameToHtml:
     """把 pandas DataFrame 渲染为商品 HTML 表格。"""
 
     def __init__(self, data: pd.DataFrame) -> None:
+        """从 DataFrame 初始化表格列和记录。
+
+        Args:
+            data: 要渲染的数据表；`url` 列仅用于为 `id` 列生成链接。
+        """
         self.columns = list(data.columns)
         self.data_dict = data.to_dict(orient="records")
         self.pass_words = {"url"}

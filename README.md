@@ -8,8 +8,10 @@ Dubbo 服务（`youzan.dubbo_client`）、查询有赞商品/数据平台接口�
 ## 安装
 
 ```bash
-uv add funwork
+uv add git+https://github.com/farfarfun/funwork.git
 ```
+
+当前源码版本尚未发布到 PyPI；PyPI 上的 `funwork` 0.0.1 是旧包，不能用于安装本仓库当前版本。
 
 ## 最小示例
 
