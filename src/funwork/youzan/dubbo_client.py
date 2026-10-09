@@ -15,6 +15,13 @@ class Dubbo:
     """调用有赞 Dubbo HTTP 转发接口。"""
 
     def __init__(self, tether_host: str, interface: str, method: str) -> None:
+        """保存 HTTP 网关地址、Dubbo 接口名与方法名。
+
+        Args:
+            tether_host: HTTP 网关的基础地址。
+            interface: 要调用的 Dubbo 接口全名。
+            method: 要调用的方法名。
+        """
         self.tether_host = tether_host
         self.interface = interface
         self.method = method
